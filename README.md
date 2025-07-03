@@ -12,7 +12,7 @@ Now you can just create an instance of the DockManager class and pass your scene
 
 Known Bug: If you disable the plugin while on a main screen that you have added. The plugin will fail to remove the button and you will need to restart the editor. Click onto a different main screen before disabling.
 
-```
+```gdscript
 const _DockManagerClass = preload("uid://cwjfdybghwcm") # dock_manager.gd
 var DockManager:_DockManagerClass
 
