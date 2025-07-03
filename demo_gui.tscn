@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://2ielp1dvo78k" path="res://addons/dock_manager/demo_gui.gd" id="1_jhbmp"]
 [ext_resource type="PackedScene" uid="uid://cteiq3uvtfj5c" path="res://addons/dock_manager/src/dock_manager/dock_button.tscn" id="2_epl4a"]
 
-[node name="DemoControl" type="Control"]
+[node name="DemoGUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

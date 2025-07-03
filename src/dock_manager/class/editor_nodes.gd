@@ -91,7 +91,7 @@ class MainScreen:
 	static func get_button_container():
 		return get_title_bar().get_child(2)
 	static func get_button_theme():
-		var button = get_title_bar().get_child(2).get_child(0) as Button
+		var button = get_button_container().get_child(0) as Button
 		return button.theme_type_variation
 
 class BottomPanel:

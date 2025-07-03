@@ -17,7 +17,6 @@ const CANCEL_STRING = "CANCEL_STRING"
 
 var timer:Timer
 var _mouse_in_panel := true
-
 var option_chosen := false
 
 signal handled(arg)
@@ -44,7 +43,6 @@ func _ready() -> void:
 	right_br.pressed.connect(_button_pressed.bind(7))
 	
 	make_floating_button.pressed.connect(_button_pressed.bind(-3))
-	
 	make_floating_button.icon = EditorInterface.get_editor_theme().get_icon("MakeFloating", &"EditorIcons")
 
 func disable_main_screen():
@@ -53,7 +51,6 @@ func disable_main_screen():
 func hide_make_floating():
 	size.y = size.y - make_floating_button.size.y
 	make_floating_button.hide()
-	
 
 func _button_pressed(chosen):
 	option_chosen = true

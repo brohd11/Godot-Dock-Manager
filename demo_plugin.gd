@@ -12,27 +12,31 @@ var gui_instance
 const OTHER_GUI = preload("uid://bxmwwhywlfq5x") # demo_other_gui.tscn
 var other_gui
 
+# must have
 func _get_plugin_name() -> String:
 	return "Test Docking"
 
+# must have
 func _has_main_screen() -> bool:
 	return true
 
-func _get_plugin_icon() -> Texture2D: # _DockManagerClass.new(self, gui, default_dock, false) 4th argument forces GUI name to plugin name 
-	return EditorInterface.get_base_control().get_theme_icon("Node", &"EditorIcons") # and icon, simplified for logic single GUIs
+# Can be used in single GUI mode. In multi GUI mode, docks will be named as the root of the scene and you can declare
+# variable "icon" in your scene script. See: "demo_gui.gd". _DockManagerClass.new(self, gui, Slot, false), 4th argument sets GUI mode.
+func _get_plugin_icon() -> Texture2D:
+	return EditorInterface.get_base_control().get_theme_icon("Node", &"EditorIcons")
 
 
 func _enter_tree() -> void:
-	gui_instance = GUI_SCENE.instantiate()
-	DockManager = _DockManagerClass.new(self, gui_instance, DockManager.Slot.BOTTOM_PANEL)
+	gui_instance = GUI_SCENE.instantiate() # class needs reference to plugin and GUI, other params optional.
+	DockManager = _DockManagerClass.new(self, gui_instance)
 	
 	other_gui = OTHER_GUI.instantiate()
-	DockManager2 = _DockManagerClass.new(self, other_gui, DockManager.Slot.DOCK_SLOT_LEFT_UR)
+	DockManager2 = _DockManagerClass.new(self, other_gui, DockManager.Slot.BOTTOM_PANEL)
 
 func _exit_tree() -> void:
 	DockManager.clean_up() # frees GUI, saves layout
 	DockManager2.clean_up()
 
 func _get_window_layout(configuration: ConfigFile) -> void:
-	DockManager.save_layout_data() # saves layout everytime it is changed, vs on exit
+	DockManager.save_layout_data() # saves layout everytime it is changed, vs on exit only
 	DockManager2.save_layout_data()

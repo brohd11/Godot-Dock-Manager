@@ -6,7 +6,7 @@ const EditorNodes = preload("uid://ckoqdl435051y") #>import editor_nodes.gd
 var editor_plugin:EditorPlugin
 var plugin_control:Control
 var plugin_button:Button
-var dummy_button:Button
+var main_screen_button:Button
 
 static var plugin_buttons = []
 
@@ -19,14 +19,14 @@ func _init(_editor_plugin, _plugin_control) -> void:
 	main_bar.child_entered_tree.connect(_child_entered_tree)
 	for child in main_bar.get_children():
 		if String(child.name) == editor_plugin._get_plugin_name():
-			dummy_button = child
-			dummy_button.hide()
+			main_screen_button = child
+			main_screen_button.hide()
 			break
 
 
 func clean_up():
-	if is_instance_valid(dummy_button):
-		dummy_button.text = editor_plugin._get_plugin_name()
+	if is_instance_valid(main_screen_button):
+		main_screen_button.text = editor_plugin._get_plugin_name()
 	if is_instance_valid(plugin_button):
 		plugin_button.queue_free()
 
@@ -42,11 +42,11 @@ func _connect_buttons():
 func _on_main_screen_bar_button_pressed(button:Button):
 	if not is_instance_valid(plugin_button):
 		return
-	if button == dummy_button and dummy_button.button_pressed:
+	if button == main_screen_button and main_screen_button.button_pressed:
 		return
 	if not button in plugin_buttons:
-		dummy_button.hide()
-		dummy_button.text = editor_plugin._get_plugin_name()
+		main_screen_button.hide()
+		main_screen_button.text = editor_plugin._get_plugin_name()
 		plugin_control.hide()
 		plugin_button.show()
 		plugin_button.text = String(plugin_control.name)
@@ -63,13 +63,13 @@ func _on_main_screen_bar_button_pressed(button:Button):
 			break
 		idx += 1
 	
-	main_bar.move_child(dummy_button, idx)
+	main_bar.move_child(main_screen_button, idx)
 	plugin_button.hide()
 	plugin_control.show()
-	dummy_button.text = String(plugin_control.name)
-	dummy_button.icon = _get_control_icon(plugin_control)
-	dummy_button.show()
-	EditorInterface.set_main_screen_editor.call_deferred(dummy_button.text)
+	main_screen_button.text = String(plugin_control.name)
+	main_screen_button.icon = _get_control_icon(plugin_control)
+	main_screen_button.show()
+	EditorInterface.set_main_screen_editor.call_deferred(main_screen_button.text)
 
 func add_main_screen_control(control):
 	_add_main_screen_button(control)
@@ -100,9 +100,9 @@ func _remove_main_screen_button(control):
 	
 	plugin_button.queue_free()
 	plugin_button = null
-	if is_instance_valid(dummy_button):
-		dummy_button.hide()
-		dummy_button.text = editor_plugin._get_plugin_name()
+	if is_instance_valid(main_screen_button):
+		main_screen_button.hide()
+		main_screen_button.text = editor_plugin._get_plugin_name()
 
 func _get_control_icon(control):
 	if "icon" in control:
