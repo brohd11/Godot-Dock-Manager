@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cteiq3uvtfj5c"]
+
+[ext_resource type="Script" uid="uid://badh71o74bsij" path="res://addons/dock_manager/src/dock_manager/class/dock_button.gd" id="1_y1caq"]
+
+[node name="DockButton" type="Button"]
+custom_minimum_size = Vector2(24, 24)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+icon_alignment = 1
+script = ExtResource("1_y1caq")
