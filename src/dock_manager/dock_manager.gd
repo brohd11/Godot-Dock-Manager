@@ -2,7 +2,7 @@
 extends RefCounted
 
 const EditorNodes = preload("class/editor_nodes.gd") #>import editor_nodes.gd
-const _DockPopupScene = preload("class/dock_popup.tscn")
+const DockPopupHandler = preload("remote/dock_popup_handler.gd") #>remote
 const _MainScreenHandlerClass = preload("class/main_screen_handler.gd")
 const _MainScreenHandlerMultiClass = preload("class/main_screen_handler_multi.gd")
 
@@ -89,7 +89,7 @@ func load_layout_data():
 	return scene_data
 
 func save_layout_data():
-	var current_dock = EditorNodes.get_current_dock(plugin_control)
+	var current_dock = EditorNodes.Docks.get_current_dock(plugin_control)
 	if current_dock == -3:
 		return
 	var data = {}
@@ -108,21 +108,12 @@ func _get_layout_file_path():
 	return layout_path
 
 func _on_dock_button_pressed():
-	var dock_popup = _DockPopupScene.instantiate()
-	var window = plugin_control.get_window()
-	dock_button.add_child(dock_popup)
-	if window != EditorInterface.get_base_control().get_window():
-		dock_popup.hide_make_floating()
-	
-	dock_popup.position = DisplayServer.mouse_get_position() - (dock_popup.size / 2)
-	if window.current_screen == 0:
-		dock_popup.popup()
-	
-	var handled = await dock_popup.handled
+	var dock_popup_handler = DockPopupHandler.new(plugin_control)
+	var handled = await dock_popup_handler.handled
 	if handled is String:
 		return
 	
-	var current_dock = EditorNodes.get_current_dock(plugin_control)
+	var current_dock = EditorNodes.Docks.get_current_dock(plugin_control)
 	if current_dock == handled:
 		return
 	
@@ -156,7 +147,7 @@ func undock_instance():
 	return window
 
 func _remove_control_from_parent():
-	var current_dock = EditorNodes.get_current_dock(plugin_control)
+	var current_dock = EditorNodes.Docks.get_current_dock(plugin_control)
 	var control_parent = plugin_control.get_parent()
 	if is_instance_valid(control_parent):
 		if current_dock > -1:
