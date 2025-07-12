@@ -2,15 +2,14 @@
 extends EditorPlugin
 
 # you can place the dock_manager folder anywhere in plugin, then preload here
-const _DockManagerClass = preload("uid://cwjfdybghwcm") # dock_manager.gd
+const _DockManagerClass = preload("res://addons/dock_manager/src/dock_manager/dock_manager.gd") # dock_manager.gd
 var DockManager:_DockManagerClass
 var DockManager2:_DockManagerClass
 
-const GUI_SCENE = preload("uid://codfq5nb74vn7") # demo_control.tscn
-var gui_instance
+const GUI_SCENE = preload("res://addons/dock_manager/demo_gui.tscn") # demo_control.tscn
+#var gui_instance
 
-const OTHER_GUI = preload("uid://bxmwwhywlfq5x") # demo_other_gui.tscn
-var other_gui
+const OTHER_GUI = preload("res://addons/dock_manager/demo_other_gui.tscn") # demo_other_gui.tscn
 
 # must have
 func _get_plugin_name() -> String:
@@ -27,16 +26,32 @@ func _get_plugin_icon() -> Texture2D:
 
 
 func _enter_tree() -> void:
-	gui_instance = GUI_SCENE.instantiate() # class needs reference to plugin and GUI, other params optional.
-	DockManager = _DockManagerClass.new(self, gui_instance)
+	#gui_instance = GUI_SCENE.instantiate()
+	var multi_gui = true
+	var can_be_freed = false
+	DockManager = _DockManagerClass.new(self, GUI_SCENE, DockManager.Slot.BOTTOM_PANEL, can_be_freed, multi_gui)
+	# class needs reference to plugin and GUI, other params optional.
 	
-	other_gui = OTHER_GUI.instantiate()
-	DockManager2 = _DockManagerClass.new(self, other_gui, DockManager.Slot.BOTTOM_PANEL)
+	add_tool_menu_item("Other GUI", _on_other_gui_tool_menu_pressed)
 
 func _exit_tree() -> void:
 	DockManager.clean_up() # frees GUI, saves layout
-	DockManager2.clean_up()
+	if is_instance_valid(DockManager2):
+		DockManager2.clean_up()
+	
+	remove_tool_menu_item("Other GUI")
 
 func _get_window_layout(configuration: ConfigFile) -> void:
 	DockManager.save_layout_data() # saves layout everytime it is changed, vs on exit only
-	DockManager2.save_layout_data()
+	
+	if is_instance_valid(DockManager2):
+		DockManager2.save_layout_data()
+
+func _on_other_gui_tool_menu_pressed():
+	if is_instance_valid(DockManager2):
+		print("ALREADY INSTANCED: ", DockManager2)
+		return
+	
+	var multi_gui = true
+	var can_be_freed = true
+	DockManager2 = _DockManagerClass.new(self, OTHER_GUI, DockManager.Slot.BOTTOM_PANEL, can_be_freed, multi_gui)
