@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://xvnq0231otqt"]
+
+[ext_resource type="Script" uid="uid://2ielp1dvo78k" path="res://addons/dock_manager/demo_gui.gd" id="1_nw20m"]
+
+[node name="DemoThirdGUI" type="Control"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nw20m")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "THIRD GUI"
+
+[node name="DockButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+flat = true

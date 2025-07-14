@@ -2,14 +2,16 @@
 extends EditorPlugin
 
 # you can place the dock_manager folder anywhere in plugin, then preload here
-const _DockManagerClass = preload("res://addons/dock_manager/src/dock_manager/dock_manager.gd") # dock_manager.gd
-var DockManager:_DockManagerClass
-var DockManager2:_DockManagerClass
+const DockManagerClass = preload("res://addons/dock_manager/src/dock_manager/dock_manager.gd") # dock_manager.gd
+var DockManager:DockManagerClass
+var DockManager2:DockManagerClass
+var DockManager3:DockManagerClass
 
-const GUI_SCENE = preload("res://addons/dock_manager/demo_gui.tscn") # demo_control.tscn
-#var gui_instance
+var MainScreenHandler: DockManagerClass.MainScreenHandlerMultiClass
 
-const OTHER_GUI = preload("res://addons/dock_manager/demo_other_gui.tscn") # demo_other_gui.tscn
+const GUI_SCENE = preload("res://addons/dock_manager/demo_gui.tscn")
+const OTHER_GUI = preload("res://addons/dock_manager/demo_other_gui.tscn")
+const THIRD_GUI = preload("res://addons/dock_manager/demo_third_gui.tscn")
 
 # must have
 func _get_plugin_name() -> String:
@@ -26,32 +28,45 @@ func _get_plugin_icon() -> Texture2D:
 
 
 func _enter_tree() -> void:
-	#gui_instance = GUI_SCENE.instantiate()
-	var multi_gui = true
+	MainScreenHandler = DockManagerClass.MainScreenHandlerMultiClass.new(self)
+	
 	var can_be_freed = false
-	DockManager = _DockManagerClass.new(self, GUI_SCENE, DockManager.Slot.BOTTOM_PANEL, can_be_freed, multi_gui)
+	DockManager = DockManagerClass.new(self, GUI_SCENE, DockManager.Slot.BOTTOM_PANEL, can_be_freed, MainScreenHandler)
 	# class needs reference to plugin and GUI, other params optional.
 	
 	add_tool_menu_item("Other GUI", _on_other_gui_tool_menu_pressed)
+	add_tool_menu_item("Third GUI", _on_third_gui_tool_menu_pressed)
 
 func _exit_tree() -> void:
 	DockManager.clean_up() # frees GUI, saves layout
 	if is_instance_valid(DockManager2):
 		DockManager2.clean_up()
+	if is_instance_valid(DockManager3):
+		DockManager3.clean_up()
+	if is_instance_valid(MainScreenHandler):
+		MainScreenHandler.clean_up()
+		MainScreenHandler.queue_free()
 	
 	remove_tool_menu_item("Other GUI")
+	remove_tool_menu_item("Third GUI")
 
 func _get_window_layout(configuration: ConfigFile) -> void:
 	DockManager.save_layout_data() # saves layout everytime it is changed, vs on exit only
-	
 	if is_instance_valid(DockManager2):
 		DockManager2.save_layout_data()
+	if is_instance_valid(DockManager3):
+		DockManager3.save_layout_data()
 
 func _on_other_gui_tool_menu_pressed():
 	if is_instance_valid(DockManager2):
-		print("ALREADY INSTANCED: ", DockManager2)
+		print("ALREADY INSTANCED: ", DockManager2.plugin_control)
 		return
-	
-	var multi_gui = true
 	var can_be_freed = true
-	DockManager2 = _DockManagerClass.new(self, OTHER_GUI, DockManager.Slot.BOTTOM_PANEL, can_be_freed, multi_gui)
+	DockManager2 = DockManagerClass.new(self, OTHER_GUI, DockManager.Slot.BOTTOM_PANEL, can_be_freed, MainScreenHandler)
+
+func _on_third_gui_tool_menu_pressed():
+	if is_instance_valid(DockManager3):
+		print("ALREADY INSTANCED: ", DockManager3.plugin_control)
+		return
+	var can_be_freed = true
+	DockManager3 = DockManagerClass.new(self, THIRD_GUI, DockManager.Slot.BOTTOM_PANEL, can_be_freed, MainScreenHandler)
