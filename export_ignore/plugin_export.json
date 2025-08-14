@@ -1,0 +1,49 @@
+{
+	"export_root": "/home/brohd/Godot/PluginExport",
+	"exports": [
+		{
+			"source": "res://addons/dock_manager",
+			"export_folder": "dock-manager-demo{{version=dock_manager}}/dock_manager",
+			"exclude": {
+				"directories": ["res://addons/dock_manager/export_ignore/"],
+				"file_extensions": [],
+				"files": [
+					"res://addons/dock_manager/LICENSE",
+					],
+				},
+				"other_transfers":[]
+		},
+		{
+			"source": "res://addons/dock_manager/src/dock_manager/",
+			"export_folder": "dock-manager-class{{version=dock_manager}}/dock_manager",
+			"exclude": {
+				"directories": [],
+				"file_extensions": [],
+				"files": [
+					],
+				},
+				"other_transfers":[]
+		},
+	],
+	"options": {
+		"include_import": true,
+		"include_uid": true,
+		"overwrite": true,
+		"parser_settings": {
+			"parse_cs": {
+				"namespace_rename": {
+
+				}
+			},
+			"parse_gd": {
+
+			},
+			"parse_tscn": {
+
+			}
+		}
+	},
+	"plugin_folder": "DockManager/DockManager{{version=dock_manager}}",
+	"post_script": "res://addons/dock_manager/export_ignore/pre_post_export.gd",
+	"pre_script": "res://addons/dock_manager/export_ignore/pre_post_export.gd"
+}
