@@ -11,7 +11,8 @@
 					"res://addons/dock_manager/LICENSE",
 					],
 				},
-				"other_transfers":[]
+				"other_transfers":[],
+				"remote_dir":"src/remote"
 		},
 		{
 			"source": "res://addons/dock_manager/src/dock_manager/",
@@ -22,7 +23,8 @@
 				"files": [
 					],
 				},
-				"other_transfers":[]
+				"other_transfers":[],
+				"remote_dir":"remote"
 		},
 	],
 	"options": {
@@ -36,7 +38,9 @@
 				}
 			},
 			"parse_gd": {
-
+				"class_rename_ignore":[
+					"DockManager"
+				]
 			},
 			"parse_tscn": {
 

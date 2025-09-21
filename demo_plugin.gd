@@ -7,7 +7,7 @@ var dock_manager:DockManager
 var dock_manager2:DockManager
 var dock_manager3:DockManager
 
-var main_screen_handler: DockManager.MainScreenHandlerMultiClass
+var main_screen_handler: DockManager.MainScreenHandlerMulti
 
 const GUI_SCENE = preload("res://addons/dock_manager/demo_gui.tscn")
 const OTHER_GUI = preload("res://addons/dock_manager/demo_other_gui.tscn")
@@ -28,7 +28,7 @@ func _get_plugin_icon() -> Texture2D:
 
 
 func _enter_tree() -> void:
-	main_screen_handler = DockManager.MainScreenHandlerMultiClass.new(self)
+	main_screen_handler = DockManager.MainScreenHandlerMulti.new(self)
 	
 	var can_be_freed = false
 	dock_manager = DockManager.new(self, GUI_SCENE, dock_manager.Slot.BOTTOM_PANEL, can_be_freed, main_screen_handler)
