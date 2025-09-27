@@ -1,5 +1,5 @@
 {
-	"export_root": "/home/brohd/Godot/PluginExport",
+	"export_root": "res://addons/dock_manager/export_ignore/exports",
 	"exports": [
 		{
 			"source": "res://addons/dock_manager",
