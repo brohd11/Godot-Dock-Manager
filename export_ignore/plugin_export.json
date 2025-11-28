@@ -32,12 +32,14 @@
 		"include_uid": true,
 		"overwrite": true,
 		"parser_settings": {
+			"use_relative_paths":false,
 			"parse_cs": {
 				"namespace_rename": {
 
 				}
 			},
 			"parse_gd": {
+				"replace_editor_interface":true,
 				"class_rename_ignore":[
 					"DockManager"
 				]
